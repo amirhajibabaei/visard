@@ -3,11 +3,16 @@ import pylab as plt
 
 
 inches_per_pt = 1 / 72.27
+inches_per_cm = 0.393701
 golden_ratio = (5**.5-1)/2  # 0.618
 
 
 def pt_to_inches(pt):
     return inches_per_pt * pt
+
+
+def cm_to_inches(cm):
+    return inches_per_cm * cm
 
 
 def golden_height(width):
@@ -39,7 +44,6 @@ dummy = {
 
 
 def example(rc=dummy, save_as='rcsettings_example.pdf'):
-    %matplotlib inline
     with mpl.rc_context(rc=rc):
         plt.xlabel('x')
         plt.ylabel('y')

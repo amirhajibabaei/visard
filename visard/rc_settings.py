@@ -23,7 +23,7 @@ def same_height(width):
     return width, width
 
 
-dummy = {
+template_simple = {
     'font.family': 'serif',
     'font.size': 10,
     'mathtext.fontset': 'custom',
@@ -32,7 +32,7 @@ dummy = {
     'ytick.labelsize': 8,
     'legend.fontsize': 8,
     # 'savefig.format': 'pdf',
-    'figure.figsize': golden_height(pt_to_inches(230)),
+    'figure.figsize': golden_height(3.5),
     'axes.xmargin': .0,
     'axes.ymargin': .0,
     'figure.subplot.left': 0.15,  # 0.125
@@ -43,7 +43,16 @@ dummy = {
 }
 
 
-def example(rc=dummy, save_as='rcsettings_example.pdf'):
+def single_rc(journal, template='simple'):
+    if type(template) == str:
+        x = globals()[f'template_{template}'].copy()
+    elif type(template) == dict:
+        x = template.copy()
+    x['figure.figsize'] = golden_height(journal['single'])
+    return x
+
+
+def example(rc=template_simple, save_as='rcsettings_example.pdf'):
     with mpl.rc_context(rc=rc):
         plt.xlabel('x')
         plt.ylabel('y')

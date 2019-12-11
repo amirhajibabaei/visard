@@ -43,12 +43,25 @@ template_simple = {
 }
 
 
-def single_rc(journal, template='simple'):
+preamble_common = [r"\usepackage{siunitx}"]
+
+
+def single_rc(journal, template='simple', tex=False, preamble='common'):
     if type(template) == str:
         x = globals()[f'template_{template}'].copy()
     elif type(template) == dict:
         x = template.copy()
     x['figure.figsize'] = golden_height(journal['single'])
+    if tex:
+        x['text.usetex'] = True
+        if preamble is not None:
+            if type(preamble) == str:
+                x['text.latex.preamble'] = globals(
+                )[f'preamble_{preamble}'].copy()
+            elif type(preamble) == list:
+                x['text.latex.preamble'] = preamble
+            mpl.rcParams.update(
+                {'text.latex.preamble': x['text.latex.preamble']})
     return x
 
 

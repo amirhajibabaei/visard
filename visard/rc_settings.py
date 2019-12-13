@@ -46,12 +46,32 @@ template_simple = {
 preamble_common = [r"\usepackage{siunitx}"]
 
 
-def single_rc(journal, template='simple', tex=False, preamble='common', left=None):
+def regular_rc(journal, template='simple', left=None, double=False, height=None, tex=False, preamble='common'):
     if type(template) == str:
         x = globals()[f'template_{template}'].copy()
     elif type(template) == dict:
         x = template.copy()
-    x['figure.figsize'] = golden_height(journal['single'])
+
+    # fig size
+    if left:
+        x['figure.subplot.left'] = left
+    w, h = golden_height(journal['single'])
+    if double:
+        c = journal['double']/journal['single']
+        w *= c
+        x['figure.subplot.left'] /= c
+        x['figure.subplot.right'] = 1-(1-x['figure.subplot.right'])/c
+        x['figure.subplot.wspace'] = 0.2 + x['figure.subplot.left']
+
+    if height:
+        assert type(height) == int and height > 0
+        h *= height
+        x['figure.subplot.bottom'] /= height
+        x['figure.subplot.top'] = 1-(1-x['figure.subplot.top'])/height
+        x['figure.subplot.hspace'] = 0.3 + x['figure.subplot.bottom']
+    x['figure.figsize'] = (w, h)
+
+    # latex
     if tex:
         x['text.usetex'] = True
         if preamble is not None:
@@ -62,9 +82,10 @@ def single_rc(journal, template='simple', tex=False, preamble='common', left=Non
                 x['text.latex.preamble'] = preamble
             mpl.rcParams.update(
                 {'text.latex.preamble': x['text.latex.preamble']})
-    if left:
-        x['figure.subplot.left'] = left
     return x
+
+
+single_rc = regular_rc
 
 
 def example(rc=template_simple, save_as='rcsettings_example.pdf'):

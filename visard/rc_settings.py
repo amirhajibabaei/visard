@@ -46,7 +46,7 @@ template_simple = {
 preamble_common = [r"\usepackage{siunitx}"]
 
 
-def single_rc(journal, template='simple', tex=False, preamble='common'):
+def single_rc(journal, template='simple', tex=False, preamble='common', left=None):
     if type(template) == str:
         x = globals()[f'template_{template}'].copy()
     elif type(template) == dict:
@@ -62,6 +62,8 @@ def single_rc(journal, template='simple', tex=False, preamble='common'):
                 x['text.latex.preamble'] = preamble
             mpl.rcParams.update(
                 {'text.latex.preamble': x['text.latex.preamble']})
+    if left:
+        x['figure.subplot.left'] = left
     return x
 
 

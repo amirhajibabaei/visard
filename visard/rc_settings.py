@@ -37,7 +37,7 @@ template_simple = {
     'axes.ymargin': .0,
     'figure.subplot.left': 0.15,  # 0.125
     'figure.subplot.right': 0.9,  # 0.9
-    'figure.subplot.bottom': 0.21,  # .11
+    'figure.subplot.bottom': 0.25,  # .11
     'figure.subplot.top': 0.9,  # 0.88
     # 'axes.labelpad': 3.0
 }

@@ -29,10 +29,19 @@ science_advances = {
 }
 
 
-article = {
+geometry = {
     'columns': 1,
     'single': pt_to_inches(210.),
     'double': pt_to_inches(430.),
     'single-double': pt_to_inches(320.),
+    'page': None,
+}
+
+
+fullpage = {
+    'columns': 1,
+    'single': pt_to_inches(230.),
+    'double': pt_to_inches(469.75),
+    'single-double': pt_to_inches(330.),
     'page': None,
 }

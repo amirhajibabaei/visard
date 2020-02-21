@@ -22,7 +22,7 @@ def get_1tex(file, target, issub=0, keepfiles=[]):
                 main += [line]
             continue
         elif '\\import' in line:
-            assert line.startswith('\\')
+            assert line.lstrip().startswith('\\')
             assert line.count('{') == line.count('}') == 2
             assert line.split('}')[-1] == '\n' or line.split('}')[-1] == ''
             s = re.search("import{(.*?)}{(.*?)}", line.strip())

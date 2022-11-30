@@ -3,12 +3,12 @@ from distutils.core import setup
 setup(
     name="visard",
     version="0.1",
-    author="Amir HajiBabaei T.",
+    author="Amir Hajibabaei",
     author_email="a.hajibabaei.86@gmail.com",
-    description="A visualization helper tool",
+    description="visualization enhancement via thin wrappers",
     url="https://github.com",
-    package_dir={'visard':'visard'},
-    packages=['visard'],
+    package_dir={"visard": "visard"},
+    packages=["visard"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

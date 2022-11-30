@@ -6,9 +6,10 @@ setup(
     author="Amir Hajibabaei",
     author_email="a.hajibabaei.86@gmail.com",
     description="visualization enhancement via thin wrappers",
-    url="https://github.com",
     package_dir={"visard": "visard"},
     packages=["visard"],
+    install_requires=["matplotlib", "nglview"],
+    url="https://github.com/amirhajibabaei/visard",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

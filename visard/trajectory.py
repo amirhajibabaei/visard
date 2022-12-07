@@ -1,5 +1,6 @@
 # +
 import nglview as ngl
+import numpy as np
 from ase import Atoms
 
 
@@ -36,4 +37,21 @@ def trajectory(traj, radiusScale=0.7, focus=None):
     view.add_unitcell()
     view.camera = "orthographic"
     view.parameters = {"clipDist": 0}
+
+    # directions
+    add_directions(view, traj[0].cell)
     return view
+
+
+def add_directions(view, cell, radius=0.2, textsize=4):
+    arrow_a = -np.ones(3) * 2
+    names = "a b c".split()
+    shapes = []
+    for i, vec in enumerate(cell):
+        color = [0, 0, 0]
+        color[i] = 1
+        arrow_b = arrow_a + vec / 3
+        arrow = ("arrow", arrow_a, arrow_b, color, radius)
+        label = ("label", arrow_b, color, textsize, names[i])
+        shapes.extend([arrow, label])
+    view._add_shape(shapes, name="axes")

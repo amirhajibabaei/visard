@@ -2,11 +2,19 @@
 import nglview as ngl
 import numpy as np
 from ase import Atoms
+from ase.io import read
 
 
-def trajectory(traj, radiusScale=0.7, focus=None):
-    if type(traj) == Atoms:
+def trajectory(traj, radiusScale=0.7, focus=None, axes=False, wrap=False):
+    if type(traj) == str:
+        traj = read(traj, ":")
+    elif type(traj) == Atoms:
         traj = [traj]
+
+    # wrap
+    if wrap:
+        for atoms in traj:
+            atoms.wrap()
 
     #
     if focus:
@@ -39,11 +47,17 @@ def trajectory(traj, radiusScale=0.7, focus=None):
     view.parameters = {"clipDist": 0}
 
     # directions
-    add_directions(view, traj[0].cell)
+    if axes:
+        add_directions(view, traj[0].cell)
     return view
 
 
-def add_directions(view, cell, radius=0.2, textsize=4):
+def add_directions(view, cell, arrowsize=1.0, textsize=1.0):
+    # TODO: it is not working for non-orthogonal!
+    scale = cell.cellpar()[:3].min() / 50
+    radius = arrowsize * scale
+    _textsize = textsize * scale * 20
+    #
     arrow_a = -np.ones(3) * 2
     names = "a b c".split()
     shapes = []
@@ -52,6 +66,6 @@ def add_directions(view, cell, radius=0.2, textsize=4):
         color[i] = 1
         arrow_b = arrow_a + vec / 3
         arrow = ("arrow", arrow_a, arrow_b, color, radius)
-        label = ("label", arrow_b, color, textsize, names[i])
+        label = ("label", arrow_b, color, _textsize, names[i])
         shapes.extend([arrow, label])
     view._add_shape(shapes, name="axes")

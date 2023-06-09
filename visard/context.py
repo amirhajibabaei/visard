@@ -34,6 +34,7 @@ def journal(
     input_rc: dict | None = None,
     left: float | None = None,
     trim: bool = False,
+    hscale: float = 1,
 ) -> ContextManager:
     if input_rc is None:
         x = _basic_rc.copy()
@@ -45,6 +46,7 @@ def journal(
     if left:
         x["figure.subplot.left"] = left
     w, h = golden_size_from_width(page["single"])
+    h *= hscale
     if wide:
         c = page["double"] / page["single"]
         w *= c

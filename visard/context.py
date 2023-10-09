@@ -35,6 +35,7 @@ def journal(
     left: float | None = None,
     trim: bool = False,
     hscale: float = 1,
+    kwargs: dict | None = None,
 ) -> ContextManager:
     if input_rc is None:
         x = _basic_rc.copy()
@@ -66,5 +67,9 @@ def journal(
 
     # latex
     x["text.usetex"] = tex
+
+    # kwargs
+    if kwargs is not None:
+        x.update(kwargs)
 
     return plt.rc_context(x)

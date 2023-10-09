@@ -25,7 +25,7 @@ repos:
     -   id: flake8
         args:
           - --max-line-length=88
-          - --ignore=E741,W503
+          - --ignore=E741,W503,E203
           - --per-file-ignores=surfsci/__init__.py:F401
 
 -   repo: https://github.com/pre-commit/mirrors-mypy

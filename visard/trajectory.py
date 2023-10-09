@@ -5,7 +5,7 @@ from ase import Atoms
 from ase.io import read
 
 
-def trajectory(traj, radiusScale=0.7, focus=None, axes=False, wrap=False):
+def trajectory(traj, stick=False, radiusScale=0.7, focus=None, axes=False, wrap=False, orient=None):
     if type(traj) == str:
         traj = read(traj, ":")
     elif type(traj) == Atoms:
@@ -33,8 +33,9 @@ def trajectory(traj, radiusScale=0.7, focus=None, axes=False, wrap=False):
 
     # spacefill
     for i, comp in enumerate(components):
-        comp.add_spacefill()
-        comp.remove_ball_and_stick()
+        if not stick:
+            comp.add_spacefill()
+            comp.remove_ball_and_stick()
         comp.update_spacefill(
             radiusType="covalent", radiusScale=radiusScale, color_scale="rainbow"
         )
@@ -49,6 +50,26 @@ def trajectory(traj, radiusScale=0.7, focus=None, axes=False, wrap=False):
     # directions
     if axes:
         add_directions(view, traj[0].cell)
+
+    # orientation
+    if orient:
+        view.control.orient(orient)
+
+
+    # updating frame
+    def get_structure_string(traj, index):
+        return ngl.ASETrajectory(traj[index:index+1]).get_structure_string()
+
+    def update_frame(change):
+        new_frame = change['new']
+        view._remote_call(
+            'replaceStructure',
+            target='Widget',
+            args=[dict(data=get_structure_string(traj, new_frame), ext='pdb')]
+        )
+
+    view.observe(update_frame, names='frame')
+
     return view
 
 
@@ -69,3 +90,7 @@ def add_directions(view, cell, arrowsize=1.0, textsize=1.0):
         label = ("label", arrow_b, color, _textsize, names[i])
         shapes.extend([arrow, label])
     view._add_shape(shapes, name="axes")
+
+
+
+

@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 from ase import Atom, Atoms
 from ase.geometry import Cell
@@ -69,7 +73,7 @@ def extract_range(
 
 def extract_symbols(
     atoms: Atoms,
-    symbols: list[str],
+    symbols: typing.Sequence[str],
     wrap: bool = True,
     xrange: RangeType | None = None,
 ) -> tuple[Atoms, Atoms]:

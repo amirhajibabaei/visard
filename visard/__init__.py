@@ -1,7 +1,10 @@
 # +
 from ._matplotlib import _get_plt_attr
 from .context import journal
-from .trajectory import trajectory
+try:
+    from .trajectory import trajectory
+except ImportError:
+    pass
 
 __all__ = ["journal", "trajectory", "view"]
 view = trajectory

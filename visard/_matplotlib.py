@@ -6,6 +6,7 @@ preamble = r"""
 \usepackage[per-mode=symbol]{siunitx}
 \DeclareSIUnit{\calorie}{cal}
 \DeclareSIUnit{\atmosphere}{atm}
+\usepackage{chemformula}
 """
 
 # latex preamble doesn't work with context managers so we set it globally
